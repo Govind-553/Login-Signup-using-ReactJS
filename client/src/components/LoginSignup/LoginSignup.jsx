@@ -19,7 +19,7 @@ const LoginSignup = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3001/register", {
+            const response = await fetch("https://login-signup-users.onrender.com/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const LoginSignup = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3001/login", {
+            const response = await fetch("https://login-signup-users.onrender.com/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
