@@ -1,59 +1,201 @@
-/* ===== HOME PAGE ===== */
-.home {
-  min-height: 100vh;
-  padding: 24px 16px;
-  background: linear-gradient(180deg, #5b21b6, #312e81);
-  display: flex;
-  flex-direction: column;
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
 }
 
-.title {
-  font-size: 30px;
-  font-weight: 700;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: "Inter", sans-serif;
+}
+
+/* ===== PAGE BACKGROUND ===== */
+.home-page {
+  width: 100%;
+  min-height: 100dvh; /* FIX mobile viewport */
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 60%),
+    linear-gradient(135deg, #4c1d95, #1e1b4b);
   color: #ffffff;
-  margin-bottom: 4px;
 }
 
-.description {
-  color: #e0e7ff;
-  margin-bottom: 24px;
-  font-size: 15px;
-}
-
-/* ===== DASHBOARD GRID ===== */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-}
-
-/* ===== CARD ===== */
-.dashboard-card {
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  padding: 20px;
-  color: #ffffff;
-  font-weight: 600;
+/* ===== NAVBAR ===== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.35);
   backdrop-filter: blur(12px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
 }
 
-.dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.nav-logo {
+  font-size: 18px;
+  font-weight: 700;
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 480px) {
-  .title {
-    font-size: 26px;
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+}
+
+/* ===== CONTENT WRAPPER ===== */
+.content-wrapper {
+  max-width: 1100px;
+  margin: 40px auto 0;   
+  padding: 32px 20px 16px;
+}
+
+
+/* ===== HERO CARD ===== */
+.hero-card {
+  background: rgba(255,255,255,0.12);
+  border-radius: 22px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+
+.hero-card h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.hero-card p {
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+/* ===== BUTTONS ===== */
+.hero-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  border: none;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* ===== FEATURES ===== */
+.feature-grid {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.feature-card {
+  background: rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 22px;
+  text-align: center;
+}
+
+.feature-card svg {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.feature-card h3 {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+/* ===== MOBILE FIXES ===== */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
   }
 
-  .dashboard-card {
-    padding: 16px;
-    font-size: 14px;
+  .nav-links {
+    position: absolute;
+    top: 58px;
+    right: 16px;
+    background: rgba(0,0,0,0.9);
+    border-radius: 14px;
+    padding: 12px;
+    flex-direction: column;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .content-wrapper {
+    padding: 24px 16px 32px;
+  }
+
+  .hero-card h1 {
+    font-size: 22px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    margin-top: 24px;
+  }
+}
+
+/* ===== SMALL DEVICES ===== */
+@media (max-width: 360px) {
+  .hero-card {
+    padding: 24px 18px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    text-align: center;
   }
 }
