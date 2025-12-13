@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3001;
 
 // Middleware
 app.use(express.json());
@@ -60,8 +59,7 @@ app.post("/login", async (req, res) => {
         res.status(500).json({ error: "Failed to login" });
     }
 });
-
-
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
