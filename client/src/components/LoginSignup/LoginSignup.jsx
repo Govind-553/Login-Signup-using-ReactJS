@@ -1,137 +1,160 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
+import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const LoginSignup = () => {
-    const [action, setAction] = useState("Login");
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+  const [action, setAction] = useState("Login");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [modal, setModal] = useState({ show: false, success: true, message: "" });
+  const navigate = useNavigate();
 
-    const handleSignup = async () => {
-        if (!email || !password || (action === "Sign Up" && !name)) {
-            alert("Please fill all fields");
-            return;
-        }
+  const showModal = (success, message) => {
+    setModal({ show: true, success, message });
+    setTimeout(() => setModal({ show: false, success: true, message: "" }), 2000);
+  };
 
-        try {
-            const response = await fetch("https://login-signup-users.onrender.com/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email, password }),
-            });
+  const handleSignup = async () => {
+    if (!email || !password || !name) {
+      showModal(false, "All fields are required");
+      return;
+    }
 
-            const data = await response.json();
-            if (response.ok) {
-                alert(data.message);
-                setAction("Login");
-            } else {
-                alert(data.error);
-            }
-        } catch (error) {
-            console.error("Error during signup:", error);
-            alert("Failed to register");
-        }
-    };
+    try {
+      const res = await fetch("https://login-signup-users.onrender.com/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    const handleLogin = async () => {
-        if (!email || !password) {
-            alert("Please fill all fields");
-            return;
-        }
+      const data = await res.json();
+      if (res.ok) {
+        showModal(true, "Registration successful");
+        setAction("Login");
+      } else {
+        showModal(false, data.error || "Registration failed");
+      }
+    } catch {
+      showModal(false, "Registration failed");
+    }
+  };
 
-        try {
-            const response = await fetch("https://login-signup-users.onrender.com/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
+  const handleLogin = async () => {
+    if (!email || !password) {
+      showModal(false, "Please fill all fields");
+      return;
+    }
 
-            const data = await response.json();
-            if (response.ok) {
-                alert("Login successful");
-                navigate("/home");
-            } else {
-                alert(data.error);
-            }
-        } catch (error) {
-            console.error("Error during login:", error);
-            alert("Failed to login");
-        }
-    };
+    try {
+      const res = await fetch("https://login-signup-users.onrender.com/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    return (
-        <div className='Container'>
-            <div className="header">
-                <div className="text">{action}</div>
-                <div className="underline"></div>
-            </div>
-            <div className="inputs">
-                {action === "Login" ? null : (
-                    <div className="input">
-                        <img src={user_icon} alt="" />
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
-                )}
-                <div className="input">
-                    <img src={email_icon} alt="" />
-                    <input
-                        type="email"
-                        placeholder="Email Id"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div className="input">
-                    <img src={password_icon} alt="" />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-            </div>
-            {action === "Sign Up" ? null : (
-                <div className="unregistered-user">
-                    Not registered? <span onClick={() => setAction("Sign Up")}>Click Here!</span>
-                </div>
-            )}
-            <div className="submit-container">
-                <div
-                    className={action === "Login" ? "submit gray" : "submit"}
-                    onClick={() => {
-                        if (action === "Sign Up") handleSignup();
-                        else setAction("Sign Up");
-                    }}
-                >
-                    Sign Up
-                </div>
-                <div
-                    className={action === "Sign Up" ? "submit gray" : "submit"}
-                     onClick={() => {
-                        if (action === "Login") handleLogin();
-                        else setAction("Login");
-                    }}
-                >
-                    Login
-                </div>
-            </div>
+      const data = await res.json();
+      if (res.ok) {
+        showModal(true, "Login successful");
+        setTimeout(() => navigate("/home"), 1200);
+      } else {
+        showModal(false, data.error || "Login failed");
+      }
+    } catch {
+      showModal(false, "Login failed");
+    }
+  };
+
+  return (
+    <>
+      <div className="Container glass">
+        <div className="header">
+          <div className="text">{action}</div>
+          <div className="underline"></div>
         </div>
-    );
+
+        <div className="inputs">
+          {action === "Sign Up" && (
+            <div className="input">
+              <img src={user_icon} alt="user" />
+              <input
+                placeholder="Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+            </div>
+          )}
+
+          <div className="input">
+            <img src={email_icon} alt="email" />
+            <input
+              placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="input password-field">
+            <img src={password_icon} alt="password" />
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+            <span onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+        </div>
+
+        {/* 🔁 LOGIN ↔ SIGNUP SWITCH */}
+        <div className="unregistered-user">
+          {action === "Login" ? (
+            <>
+              Not registered?{" "}
+              <span onClick={() => setAction("Sign Up")}>Click here</span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span onClick={() => setAction("Login")}>Back to Login</span>
+            </>
+          )}
+        </div>
+
+        <div className="submit-container">
+          <div
+            className={`submit ${action === "Login" ? "gray" : ""}`}
+            onClick={handleSignup}
+          >
+            Sign Up
+          </div>
+
+          <div
+            className={`submit ${action === "Sign Up" ? "gray" : ""}`}
+            onClick={handleLogin}
+          >
+            Login
+          </div>
+        </div>
+      </div>
+
+      {modal.show && (
+        <div className="modal-overlay">
+          <div className={`modal ${modal.success ? "success" : "error"}`}>
+            {modal.success ? <FaCheckCircle /> : <FaTimesCircle />}
+            <p>{modal.message}</p>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default LoginSignup;
