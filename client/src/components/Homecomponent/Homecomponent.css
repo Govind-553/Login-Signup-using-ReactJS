@@ -1,29 +1,59 @@
+/* ===== HOME PAGE ===== */
 .home {
   min-height: 100vh;
+  padding: 24px 16px;
+  background: linear-gradient(180deg, #5b21b6, #312e81);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-top: 80px;
 }
 
-.cards {
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.description {
+  color: #e0e7ff;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+/* ===== DASHBOARD GRID ===== */
+.dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  gap: 20px;
-  width: 90%;
-  max-width: 800px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
 }
 
-.card {
-  background: linear-gradient(135deg,#6d28d9,#9333ea);
-  color: white;
-  padding: 30px;
-  border-radius: 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform .3s;
+/* ===== CARD ===== */
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 20px;
+  color: #ffffff;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  .title {
+    font-size: 26px;
+  }
+
+  .dashboard-card {
+    padding: 16px;
+    font-size: 14px;
+  }
 }
