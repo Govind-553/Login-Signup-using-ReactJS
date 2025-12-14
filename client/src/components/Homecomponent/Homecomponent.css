@@ -3,24 +3,15 @@
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  font-family: "Inter", sans-serif;
-}
-
 /* ===== PAGE BACKGROUND ===== */
 .home-page {
   width: 100%;
-  min-height: 100dvh; /* FIX mobile viewport */
+  min-height: 100dvh;
   background:
     radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 60%),
     linear-gradient(135deg, #4c1d95, #1e1b4b);
   color: #ffffff;
+  font-family: "Inter", sans-serif;
 }
 
 /* ===== NAVBAR ===== */
@@ -46,6 +37,7 @@ html, body {
   font-weight: 700;
 }
 
+/* ===== NAV LINKS ===== */
 .nav-links {
   display: flex;
   gap: 20px;
@@ -60,8 +52,25 @@ html, body {
   display: flex;
   gap: 6px;
   align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
 }
 
+.nav-links button:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ===== LOGOUT BUTTON SPECIAL ===== */
+.nav-links button:last-child {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.nav-links button:last-child:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* ===== MOBILE MENU ===== */
 .menu-toggle {
   display: none;
   background: none;
@@ -73,10 +82,9 @@ html, body {
 /* ===== CONTENT WRAPPER ===== */
 .content-wrapper {
   max-width: 1100px;
-  margin: 40px auto 0;   
+  margin: 40px auto 0;
   padding: 32px 20px 16px;
 }
-
 
 /* ===== HERO CARD ===== */
 .hero-card {

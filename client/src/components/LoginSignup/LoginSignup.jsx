@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from "@auth0/auth0-react";
 import './LoginSignup.css';
+
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
@@ -13,7 +15,9 @@ const LoginSignup = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [modal, setModal] = useState({ show: false, success: true, message: "" });
+
   const navigate = useNavigate();
+  const { loginWithRedirect } = useAuth0();
 
   const showModal = (success, message) => {
     setModal({ show: true, success, message });
@@ -34,12 +38,8 @@ const LoginSignup = () => {
       });
 
       const data = await res.json();
-      if (res.ok) {
-        showModal(true, "Registration successful");
-        setAction("Login");
-      } else {
-        showModal(false, data.error || "Registration failed");
-      }
+      res.ok ? showModal(true, "Registration successful") : showModal(false, data.error);
+      setAction("Login");
     } catch {
       showModal(false, "Registration failed");
     }
@@ -61,9 +61,10 @@ const LoginSignup = () => {
       const data = await res.json();
       if (res.ok) {
         showModal(true, "Login successful");
+        localStorage.setItem("user_token", JSON.stringify(data));
         setTimeout(() => navigate("/home"), 1200);
       } else {
-        showModal(false, data.error || "Login failed");
+        showModal(false, data.error);
       }
     } catch {
       showModal(false, "Login failed");
@@ -82,21 +83,13 @@ const LoginSignup = () => {
           {action === "Sign Up" && (
             <div className="input">
               <img src={user_icon} alt="user" />
-              <input
-                placeholder="Name"
-                value={name}
-                onChange={e => setName(e.target.value)}
-              />
+              <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
             </div>
           )}
 
           <div className="input">
             <img src={email_icon} alt="email" />
-            <input
-              placeholder="Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
+            <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
           </div>
 
           <div className="input password-field">
@@ -113,36 +106,26 @@ const LoginSignup = () => {
           </div>
         </div>
 
-        {/* 🔁 LOGIN ↔ SIGNUP SWITCH */}
         <div className="unregistered-user">
-          {action === "Login" ? (
-            <>
-              Not registered?{" "}
-              <span onClick={() => setAction("Sign Up")}>Click here</span>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <span onClick={() => setAction("Login")}>Back to Login</span>
-            </>
-          )}
+          {action === "Login"
+            ? <>Not registered? <span onClick={() => setAction("Sign Up")}>Click here</span></>
+            : <>Already have an account? <span onClick={() => setAction("Login")}>Back to Login</span></>
+          }
         </div>
 
         <div className="submit-container">
-          <div
-            className={`submit ${action === "Login" ? "gray" : ""}`}
-            onClick={handleSignup}
-          >
+          <div className={`submit ${action === "Login" ? "gray" : ""}`} onClick={handleSignup}>
             Sign Up
           </div>
-
-          <div
-            className={`submit ${action === "Sign Up" ? "gray" : ""}`}
-            onClick={handleLogin}
-          >
+          <div className={`submit ${action === "Sign Up" ? "gray" : ""}`} onClick={handleLogin}>
             Login
           </div>
         </div>
+
+        {/* AUTH0 BUTTON */}
+        <button className="auth0-btn" onClick={() => loginWithRedirect()}>
+          Continue with Google
+        </button>
       </div>
 
       {modal.show && (
