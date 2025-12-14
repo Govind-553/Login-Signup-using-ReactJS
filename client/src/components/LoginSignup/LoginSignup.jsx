@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import './LoginSignup.css';
@@ -17,7 +17,16 @@ const LoginSignup = () => {
   const [modal, setModal] = useState({ show: false, success: true, message: "" });
 
   const navigate = useNavigate();
-  const { loginWithRedirect } = useAuth0();
+
+  // ✅ UPDATED: read isAuthenticated
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+
+  // ✅ NEW: redirect after Auth0 login
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      navigate("/home");
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   const showModal = (success, message) => {
     setModal({ show: true, success, message });
@@ -73,59 +82,79 @@ const LoginSignup = () => {
 
   return (
     <>
-      <div className="Container glass">
-        <div className="header">
-          <div className="text">{action}</div>
-          <div className="underline"></div>
-        </div>
+      <div className="login-page">
+        <div className="Container glass">
+          <div className="header">
+            <div className="text">{action}</div>
+            <div className="underline"></div>
+          </div>
 
-        <div className="inputs">
-          {action === "Sign Up" && (
+          <div className="inputs">
+            {action === "Sign Up" && (
+              <div className="input">
+                <img src={user_icon} alt="user" />
+                <input
+                  placeholder="Name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                />
+              </div>
+            )}
+
             <div className="input">
-              <img src={user_icon} alt="user" />
-              <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
+              <img src={email_icon} alt="email" />
+              <input
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
             </div>
-          )}
 
-          <div className="input">
-            <img src={email_icon} alt="email" />
-            <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+            <div className="input password-field">
+              <img src={password_icon} alt="password" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <span onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </div>
 
-          <div className="input password-field">
-            <img src={password_icon} alt="password" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            <span onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+          <div className="unregistered-user">
+            {action === "Login"
+              ? <>Not registered? <span onClick={() => setAction("Sign Up")}>Click here</span></>
+              : <>Already have an account? <span onClick={() => setAction("Login")}>Back to Login</span></>
+            }
           </div>
+
+          <div className="submit-container">
+            <div
+              className={`submit ${action === "Login" ? "gray" : ""}`}
+              onClick={handleSignup}
+            >
+              Sign Up
+            </div>
+
+            <div
+              className={`submit ${action === "Sign Up" ? "gray" : ""}`}
+              onClick={handleLogin}
+            >
+              Login
+            </div>
+          </div>
+
+          {/* AUTH0 LOGIN */}
+          <button
+            className="auth0-btn"
+            onClick={() => loginWithRedirect()}
+          >
+            Continue with Google
+          </button>
         </div>
-
-        <div className="unregistered-user">
-          {action === "Login"
-            ? <>Not registered? <span onClick={() => setAction("Sign Up")}>Click here</span></>
-            : <>Already have an account? <span onClick={() => setAction("Login")}>Back to Login</span></>
-          }
-        </div>
-
-        <div className="submit-container">
-          <div className={`submit ${action === "Login" ? "gray" : ""}`} onClick={handleSignup}>
-            Sign Up
-          </div>
-          <div className={`submit ${action === "Sign Up" ? "gray" : ""}`} onClick={handleLogin}>
-            Login
-          </div>
-        </div>
-
-        {/* AUTH0 BUTTON */}
-        <button className="auth0-btn" onClick={() => loginWithRedirect()}>
-          Continue with Google
-        </button>
       </div>
 
       {modal.show && (

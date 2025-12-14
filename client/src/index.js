@@ -26,7 +26,7 @@ root.render(
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       authorizationParams={{
-        redirect_uri: window.location.origin + "/home",
+        redirect_uri: window.location.origin,
       }}
     >
       <App />
