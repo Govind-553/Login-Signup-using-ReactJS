@@ -209,19 +209,37 @@
   }
 }
 
+/* ===== AUTH0 BUTTON ===== */
 .auth0-btn {
   width: 100%;
-  margin-top: 16px;
+  margin-top: 20px;
   padding: 12px;
   border-radius: 30px;
   border: none;
-  background: #111827;
+  background: linear-gradient(135deg, #eb5424 0%, #eb5424 100%); /* Auth0 Brand Color */
   color: white;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(235, 84, 36, 0.3);
 }
 
 .auth0-btn:hover {
-  background: #000;
+  background: linear-gradient(135deg, #d9491d 0%, #c13e16 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(235, 84, 36, 0.4);
+}
+
+.auth0-btn:active {
+  transform: translateY(0);
+}
+
+.auth0-icon {
+  font-size: 20px;
 }
 

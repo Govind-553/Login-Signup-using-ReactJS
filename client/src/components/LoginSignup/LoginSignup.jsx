@@ -7,6 +7,7 @@ import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { SiAuth0 } from "react-icons/si";
 
 const LoginSignup = () => {
   const [action, setAction] = useState("Login");
@@ -149,17 +150,18 @@ const LoginSignup = () => {
 
 {/* AUTH0 LOGIN */}
           <button
-  className="auth0-btn"
-  onClick={() =>
-    loginWithRedirect({
-      authorizationParams: {
-        redirect_uri: window.location.origin,
-      },
-    })
-  }
->
-  Continue with Google
-</button>
+            className="auth0-btn"
+            onClick={() =>
+              loginWithRedirect({
+                authorizationParams: {
+                  redirect_uri: window.location.origin,
+                },
+              })
+            }
+          >
+            <SiAuth0 className="auth0-icon" />
+            <span>Login with Auth0</span>
+          </button>
 
         </div>
       </div>

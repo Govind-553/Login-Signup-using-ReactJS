@@ -26,6 +26,7 @@ frontend and Node.js on the backend. 🌐
 * **React.js:** Component-based architecture for building interactive UIs.
 * **JavaScript (ES6):** Powering the logic behind the UI.
 * **CSS3:** Responsive and sleek styling.
+* **Auth0:** Secure and modern authentication.
 ### Backend:
 * **Node.js:** Scalable JavaScript runtime for building the server.
 * **Express.js:** Fast and minimalist web framework for handling routes.
@@ -37,10 +38,17 @@ frontend and Node.js on the backend. 🌐
 2. **Signup Page:** Register a new account with essential details.
 3. **Home Component:** Users will be redirected upon successful login.
 
+### ⚙️ Setup & Configuration
+To run this project locally with Auth0:
+1.  Create an application in your [Auth0 Dashboard](https://manage.auth0.com/).
+2.  Configure the `domain` and `clientId` in your `index.js` or `.env` file.
+3.  Add `http://localhost:3000` to the **Allowed Callback URLs**, **Allowed Logout URLs**, and **Allowed Web Origins** in Auth0 settings.
+4.  Run `npm start` to launch the application.
+
 ### 🙏 Acknowledgements
 ###### Special thanks to:
-* The React.js community.
-*	Open-source contributors who make web development awesome!
+* The **React.js Community** for their continuous support and amazing resources.
+* Open-source contributors who make web development awesome!
 
 ### 📸 Live Demo
 👉 Click below to visit the live demo!<br>
