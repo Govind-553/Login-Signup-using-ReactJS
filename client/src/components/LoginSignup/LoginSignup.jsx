@@ -147,13 +147,20 @@ const LoginSignup = () => {
             </div>
           </div>
 
-          {/* AUTH0 LOGIN */}
+{/* AUTH0 LOGIN */}
           <button
-            className="auth0-btn"
-            onClick={() => loginWithRedirect()}
-          >
-            Continue with Google
-          </button>
+  className="auth0-btn"
+  onClick={() =>
+    loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: window.location.origin,
+      },
+    })
+  }
+>
+  Continue with Google
+</button>
+
         </div>
       </div>
 
